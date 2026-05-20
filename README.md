@@ -2,12 +2,15 @@
 
 **Live (GitHub Pages):** https://mykhailobrynchak-dev.github.io/loko-mbr-report/
 
-Ця папка — **публічний репозиторій** `loko-mbr-report`. Після змін у `template.html` / `generate_report.py` агент (або ви) має:
+Ця папка — **публічний репозиторій** `loko-mbr-report`.
 
-1. Запустити `python generate_report.py` (потрібні змінні Databricks).
-2. Закомітити й **push** `index.html` (+ `report_data.json`, якщо змінився) у `main`.
+**Публікація однією командою (Cursor або ви):**
 
-Тоді оновлення сторінки в браузері покаже новий звіт (як у CAFE RYNOK / HOP HEY).
+```bash
+./publish.sh
+```
+
+Одноразове налаштування: **[SETUP.md](./SETUP.md)** (файл `.env`, pip, git push).
 
 ## Файли
 

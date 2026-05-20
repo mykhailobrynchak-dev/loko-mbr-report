@@ -14,13 +14,46 @@ Monthly / Weekly / Stores / Failed orders list (weekly, exportable).
 
 import json
 import os
+import sys
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 from databricks import sql as dbsql
 
-DATABRICKS_HOST = os.environ["DATABRICKS_HOST"]
-DATABRICKS_TOKEN = os.environ["DATABRICKS_TOKEN"]
+_ROOT = Path(__file__).parent
+
+
+def _load_dotenv():
+    """Load Reports/LOKO/MBR/.env into os.environ (not committed to git)."""
+    env_file = _ROOT / ".env"
+    if not env_file.exists():
+        return
+    for line in env_file.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        key, value = key.strip(), value.strip().strip('"').strip("'")
+        if key and key not in os.environ:
+            os.environ[key] = value
+
+
+_load_dotenv()
+
+def _require_env(name: str) -> str:
+    value = os.environ.get(name)
+    if not value:
+        print(
+            f"Missing {name}. Create {_ROOT / '.env'} from .env.example "
+            f"or export the variable.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    return value
+
+
+DATABRICKS_HOST = _require_env("DATABRICKS_HOST")
+DATABRICKS_TOKEN = _require_env("DATABRICKS_TOKEN")
 DATABRICKS_HTTP_PATH = os.environ.get("DATABRICKS_HTTP_PATH", "")
 DATABRICKS_WAREHOUSE_ID = os.environ.get("DATABRICKS_WAREHOUSE_ID", "")
 
