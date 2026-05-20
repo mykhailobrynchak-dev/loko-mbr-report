@@ -8,8 +8,8 @@ Fetches:
   - Store-level weekly metrics (orders, merch price, rating, availability) per provider.
   - Customer text feedback (rating + comment) per provider per week.
 
-Outputs a single self-contained index.html with three tabs:
-Monthly / Weekly / Stores (with weekly selector).
+Outputs a single self-contained index.html with four tabs:
+Monthly / Weekly / Stores / Failed orders list (weekly, exportable).
 """
 
 import json
@@ -285,6 +285,40 @@ GROUP BY 1, r.reason, r.actor_type
 ORDER BY 1, cnt DESC
 """
 
+_success_filter = ", ".join(repr(x) for x in SUCCESS_RESOLUTION_REASONS)
+FAILED_ORDERS_LIST_WEEKLY = f"""
+SELECT
+    DATE_FORMAT(DATE_TRUNC('week', f.order_created_date), 'yyyy-MM-dd') AS period,
+    f.order_reference_id,
+    f.provider_id,
+    p.provider_name,
+    f.order_state,
+    CAST(f.order_created_date AS STRING) AS order_created_at,
+    array_join(
+        sort_array(collect_set(concat(r.reason, ' · ', r.actor_type))),
+        '; '
+    ) AS cancellation_detail
+FROM ng_delivery_spark.fact_order_delivery f
+    JOIN ng_delivery_spark.dim_provider_v2 p ON f.provider_id = p.provider_id
+    LEFT JOIN ng_delivery_spark.delivery_order_order_resolution r
+        ON r.order_id = f.order_id
+        AND r.reason NOT IN ({_success_filter})
+WHERE p.country_code = 'ua'
+  AND p.group_name = '{PARTNER_NAME}'
+  AND f.order_created_date >= '{WEEKLY_START}'
+  AND f.order_created_date <= '{WEEKLY_END}'
+  AND f.order_state != 'delivered'
+GROUP BY
+    DATE_FORMAT(DATE_TRUNC('week', f.order_created_date), 'yyyy-MM-dd'),
+    f.order_reference_id,
+    f.provider_id,
+    p.provider_name,
+    f.order_state,
+    f.order_created_date
+ORDER BY p.provider_name, f.order_created_date DESC
+LIMIT 5000
+"""
+
 CAMPAIGNS_MONTHLY = f"""
 SELECT
     DATE_FORMAT(f.order_created_date, 'yyyy-MM') AS period,
@@ -482,6 +516,9 @@ def main():
     fail_reasons_m = to_serializable(run_query(cursor, FAILED_REASONS_MONTHLY))
     fail_reasons_w = to_serializable(run_query(cursor, FAILED_REASONS_WEEKLY))
 
+    print("Fetching failed orders list (weekly)...")
+    failed_orders_list = to_serializable(run_query(cursor, FAILED_ORDERS_LIST_WEEKLY))
+
     print("Fetching campaign data...")
     camp_m = to_serializable(run_query(cursor, CAMPAIGNS_MONTHLY))
     camp_w = to_serializable(run_query(cursor, CAMPAIGNS_WEEKLY))
@@ -568,6 +605,7 @@ def main():
         "network_store_count": network_store_count,
         "store_weekly": store_weekly,
         "customer_reviews": customer_reviews,
+        "failed_orders_list": failed_orders_list,
     }
 
     DATA_PATH.write_text(

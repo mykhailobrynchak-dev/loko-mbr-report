@@ -78,6 +78,10 @@ th.col-group-end,td.col-group-end{border-right:2px solid #d1d5db!important}
 .review-text{color:var(--text);font-size:12px;line-height:1.5;white-space:pre-wrap}
 .review-empty{color:var(--muted);font-size:11px;font-style:italic;padding:8px}
 .rating-pill{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:700;color:#fff}
+.btn-export{padding:8px 16px;font-size:13px;font-weight:600;border:none;border-radius:6px;background:var(--accent);color:#fff;cursor:pointer}
+.btn-export:hover{background:var(--accent-dark)}
+.provider-group td{background:#eef2f7;font-weight:700;font-size:12px;color:var(--dark);padding:10px 12px;border-top:2px solid var(--border)}
+.failed-meta{font-size:11px;color:var(--muted)}
 @media(max-width:900px){.grid-2,.grid-3,.grid-4,.grid-6{grid-template-columns:1fr}}
 @media print{body{background:#fff}.card{box-shadow:none;border:1px solid #ddd}}
 </style>
@@ -98,6 +102,7 @@ th.col-group-end,td.col-group-end{border-right:2px solid #d1d5db!important}
   <button class="tab-btn active" data-tab="monthly">Місячні дані (4 міс)</button>
   <button class="tab-btn" data-tab="weekly">Тижневі дані (4 тиж)</button>
   <button class="tab-btn" data-tab="locations">Магазини</button>
+  <button class="tab-btn" data-tab="failed-list">Невдалі замовлення</button>
 </div>
 
 <!-- ═══════════════════════════════════════ -->
@@ -136,14 +141,6 @@ th.col-group-end,td.col-group-end{border-right:2px solid #d1d5db!important}
 <div class="section" id="m-ops">
   <h2>2. Операційна якість — детальний аналіз</h2>
   <div class="card">
-    <h3>Якісні (Honey) та проблемні (Bad) замовлення, %</h3>
-    <div class="chart-box"><canvas id="m-cQuality"></canvas></div>
-  </div>
-  <div class="insight" style="margin-top:10px">
-    <div class="insight-title">Що таке якісні та проблемні замовлення</div>
-    <div class="insight-text"><strong>Якісні замовлення (Honey Order Rate)</strong> — доставлені замовлення без суттєвих проблем: без запізнення &gt;5 хв, без скарг на склад/заміни, без пошкоджень. Ціль — максимізувати цей показник.<br><strong>Проблемні замовлення (Bad Order Rate)</strong> — доставлені замовлення, у яких була хоча б одна проблема під час виконання (запізнення, неправильні товари, пошкодження тощо). База розрахунку — лише <em>доставлені</em> замовлення.</div>
-  </div>
-  <div class="card" style="margin-top:14px">
     <h3>Коригування (Adjustment) та заміна товарів (Replacement), %</h3>
     <div class="chart-box"><canvas id="m-cAdjRepl"></canvas></div>
   </div>
@@ -226,14 +223,6 @@ th.col-group-end,td.col-group-end{border-right:2px solid #d1d5db!important}
 <div class="section">
   <h2>2. Операційна якість — детальний аналіз</h2>
   <div class="card">
-    <h3>Якісні (Honey) та проблемні (Bad) замовлення, %</h3>
-    <div class="chart-box"><canvas id="w-cQuality"></canvas></div>
-  </div>
-  <div class="insight" style="margin-top:10px">
-    <div class="insight-title">Що таке якісні та проблемні замовлення</div>
-    <div class="insight-text"><strong>Якісні (Honey)</strong> — доставлені без суттєвих проблем. <strong>Проблемні (Bad)</strong> — доставлені з хоча б однією проблемою під час виконання. База Bad/Honey — лише доставлені замовлення.</div>
-  </div>
-  <div class="card" style="margin-top:14px">
     <h3>Коригування (Adjustment) та заміна товарів (Replacement), %</h3>
     <div class="chart-box"><canvas id="w-cAdjRepl"></canvas></div>
   </div>
@@ -307,6 +296,43 @@ th.col-group-end,td.col-group-end{border-right:2px solid #d1d5db!important}
 
 
 </div><!-- end locations tab -->
+
+
+<!-- ═══════════════════════════════════════ -->
+<!-- FAILED ORDERS LIST TAB -->
+<!-- ═══════════════════════════════════════ -->
+<div class="tab-content" id="tab-failed-list">
+
+<div class="section">
+  <h2>Невдалі замовлення — перелік за тижнями</h2>
+  <div class="insight" style="margin-bottom:14px">
+    <div class="insight-text">Замовлення зі статусом, відмінним від <em>delivered</em>, за обраний повний тиждень. Групування по назві магазину в Bolt. Причини скасування — з <code>delivery_order_order_resolution</code> (технічні коди успішного завершення виключені).</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+    <label style="font-size:13px;font-weight:600;color:var(--muted)">Тиждень:</label>
+    <select id="failWeekSelect" class="week-sel"></select>
+    <span id="failWeekSummary" style="font-size:12px;color:var(--muted)"></span>
+    <button type="button" class="btn-export" id="failExportCsv">Завантажити CSV</button>
+  </div>
+  <div class="card">
+    <div style="overflow-x:auto">
+      <table id="failOrdersTable">
+        <thead>
+          <tr>
+            <th>Order reference</th>
+            <th>Дата замовлення</th>
+            <th>Статус</th>
+            <th>Причина / деталі скасування</th>
+            <th>Provider ID</th>
+          </tr>
+        </thead>
+        <tbody id="failOrdersBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div><!-- end failed-list tab -->
 
 <div style="text-align:center;color:var(--muted);font-size:11px;margin-top:40px;padding:20px 0;border-top:1px solid var(--border)">
   LOKO від Сільпо × Bolt Food UA · Бізнес-огляд · Конфіденційно
@@ -432,6 +458,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    if (btn.dataset.tab === 'failed-list') renderFailedOrdersTab();
   });
 });
 
@@ -489,12 +516,6 @@ function renderCharts(prefix, data, labelFn) {
     {label:'Нові користувачі', data:data.map(d=>d.fin_users_activated), backgroundColor:'rgba(52,209,134,0.55)', borderRadius:3, yAxisID:'y'},
     {label:'Активні користувачі', data:data.map(d=>d.fin_active_users), borderColor:'#2563eb', backgroundColor:'rgba(37,99,235,0.05)', type:'line', tension:.3, yAxisID:'y1', fill:false, pointRadius:4, borderWidth:2.5}
   ]}, options:dualY('Нові користувачі','Активні користувачі')});
-
-  const qualityEl = document.getElementById(prefix+'-cQuality');
-  if (qualityEl) new Chart(qualityEl, {type:'line', data:{labels, datasets:[
-    {label:'Якісні (Honey) %', data:data.map(d=>d.ops_honey_order_rate), borderColor:'#34D186', backgroundColor:'rgba(52,209,134,0.08)', tension:.3, fill:true, pointRadius:4, borderWidth:2.5},
-    {label:'Проблемні (Bad) %', data:data.map(d=>d.ops_bad_order_rate), borderColor:'#7c3aed', tension:.3, fill:false, pointRadius:4, borderWidth:2.5, borderDash:[6,3]}
-  ]}, options:defOpts});
 
   const adjReplEl = document.getElementById(prefix+'-cAdjRepl');
   if (adjReplEl) new Chart(adjReplEl, {type:'line', data:{labels, datasets:[
@@ -574,8 +595,6 @@ if (mData.length) {
   for (const d of mData) html += `<th>${shortMonth(d.period)}</th>`;
   html += '</tr></thead><tbody>';
   const rows = [
-    {name:'Якісні замовлення', desc:'Honey', key:'ops_honey_order_rate', fmt:pct, inv:false},
-    {name:'Проблемні замовлення', desc:'Bad', key:'ops_bad_order_rate', fmt:pct, inv:true},
     {name:'Коригування', desc:'Adjustment', key:'repl_adjustment_rate', fmt:pct, inv:true},
     {name:'Заміна товарів', desc:'Replacement', key:'repl_replacement_rate', fmt:pct, inv:true},
     {name:'Магазини в мережі', desc:'каталог Bolt', key:'ops_active_stores', fmt:fmt, inv:false},
@@ -896,6 +915,96 @@ if (wData.length) {
   sel.addEventListener('change', renderLocWeek);
   renderLocWeek();
 })();
+
+// ── Failed orders list tab ──
+function formatCancellationDetail(raw, orderState) {
+  if (!raw) return orderState ? `Статус: ${orderState} (причину в resolution не знайдено)` : '—';
+  return raw.split('; ').map(part => {
+    const [reason, actor] = part.split(' · ');
+    return reasonLabel(reason || part, actor || '');
+  }).join('; ');
+}
+
+function renderFailedOrdersTab() {
+  const list = D.failed_orders_list || [];
+  const sel = document.getElementById('failWeekSelect');
+  const summary = document.getElementById('failWeekSummary');
+  const tbody = document.getElementById('failOrdersBody');
+  if (!sel || !tbody) return;
+
+  const periods = [...new Set(list.map(r => r.period))].sort();
+  const prev = sel.value;
+  sel.innerHTML = periods.map(p => `<option value="${p}">${shortWeek(p)}</option>`).join('');
+  if (prev && periods.includes(prev)) sel.value = prev;
+  else if (periods.length) sel.value = periods[periods.length - 1];
+
+  function renderWeek() {
+    const week = sel.value;
+    const rows = list.filter(r => r.period === week);
+    summary.textContent = rows.length
+      ? `${rows.length} невдалих замовлень · ${new Set(rows.map(r => r.provider_name)).size} магазинів`
+      : 'Немає невдалих замовлень за цей тиждень';
+
+    const byProvider = {};
+    for (const r of rows) {
+      const key = r.provider_name || String(r.provider_id);
+      if (!byProvider[key]) byProvider[key] = { name: key, id: r.provider_id, orders: [] };
+      byProvider[key].orders.push(r);
+    }
+    const providers = Object.values(byProvider).sort((a, b) => a.name.localeCompare(b.name, 'uk'));
+
+    let html = '';
+    if (!providers.length) {
+      html = '<tr><td colspan="5" class="me" style="text-align:center;padding:24px">Немає даних</td></tr>';
+    } else {
+      for (const g of providers) {
+        html += `<tr class="provider-group"><td colspan="5">${escapeHtml(g.name)} <span class="failed-meta">· Provider ID ${escapeHtml(String(g.id))} · ${g.orders.length} замовл.</span></td></tr>`;
+        for (const o of g.orders) {
+          const detail = formatCancellationDetail(o.cancellation_detail, o.order_state);
+          html += `<tr>
+            <td><strong>${escapeHtml(o.order_reference_id || '—')}</strong></td>
+            <td>${escapeHtml((o.order_created_at || '').slice(0, 10))}</td>
+            <td>${escapeHtml(o.order_state || '—')}</td>
+            <td>${escapeHtml(detail)}</td>
+            <td>${escapeHtml(String(o.provider_id ?? '—'))}</td>
+          </tr>`;
+        }
+      }
+    }
+    tbody.innerHTML = html;
+  }
+
+  sel.onchange = renderWeek;
+  document.getElementById('failExportCsv').onclick = () => {
+    const week = sel.value;
+    const rows = list.filter(r => r.period === week);
+    const header = ['provider_name', 'provider_id', 'order_reference_id', 'order_created_at', 'order_state', 'cancellation_detail'];
+    const lines = [header.join(',')];
+    for (const r of rows) {
+      const vals = header.map(h => {
+        const v = String(r[h] ?? '').replace(/"/g, '""');
+        return `"${v}"`;
+      });
+      lines.push(vals.join(','));
+    }
+    const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `loko-failed-orders-${week}.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+  renderWeek();
+}
+
+if ((D.failed_orders_list || []).length) {
+  const failSel = document.getElementById('failWeekSelect');
+  if (failSel) {
+    const periods = [...new Set(D.failed_orders_list.map(r => r.period))].sort();
+    failSel.innerHTML = periods.map(p => `<option value="${p}">${shortWeek(p)}</option>`).join('');
+    if (periods.length) failSel.value = periods[periods.length - 1];
+  }
+}
 </script>
 </body>
 </html>
