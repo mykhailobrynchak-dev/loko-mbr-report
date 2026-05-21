@@ -45,7 +45,17 @@ git push origin main
 chmod +x publish.sh
 ```
 
-### 5. Перевірка вручну
+### 5. Помилка SSL на Mac (`CERTIFICATE_VERIFY_FAILED`)
+
+Якщо `publish.sh` падає з `self-signed certificate in certificate chain` (часто через корпоративний VPN/проксі), додайте в `.env`:
+
+```
+DATABRICKS_TLS_NO_VERIFY=1
+```
+
+Це лише для **локального** Mac. GitHub Actions цього не потребує.
+
+### 6. Перевірка вручну
 
 ```bash
 ./publish.sh

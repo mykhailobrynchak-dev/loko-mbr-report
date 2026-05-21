@@ -64,17 +64,32 @@ OUTPUT_PATH = Path(__file__).parent / "index.html"
 DATA_PATH = Path(__file__).parent / "report_data.json"
 
 
+def _connect_kwargs():
+    """Extra connect args. Set DATABRICKS_TLS_NO_VERIFY=1 in .env on Mac behind corporate SSL proxy."""
+    kwargs = {}
+    if os.environ.get("DATABRICKS_TLS_NO_VERIFY", "").strip().lower() in (
+        "1",
+        "true",
+        "yes",
+    ):
+        kwargs["_tls_no_verify"] = True
+    return kwargs
+
+
 def get_connection():
+    extra = _connect_kwargs()
     if DATABRICKS_HTTP_PATH:
         return dbsql.connect(
             server_hostname=DATABRICKS_HOST,
             http_path=DATABRICKS_HTTP_PATH,
             access_token=DATABRICKS_TOKEN,
+            **extra,
         )
     return dbsql.connect(
         server_hostname=DATABRICKS_HOST,
         http_path=f"/sql/1.0/warehouses/{DATABRICKS_WAREHOUSE_ID}",
         access_token=DATABRICKS_TOKEN,
+        **extra,
     )
 
 
