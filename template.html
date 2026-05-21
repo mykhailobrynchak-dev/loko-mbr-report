@@ -118,11 +118,11 @@ th.col-group-end,td.col-group-end{border-right:2px solid #d1d5db!important}
 <div class="section" id="m-sales">
   <h2>1. Зростання та обсяги продажів</h2>
   <div class="grid-2">
-    <div class="card"><h3>Продажі партнера, €</h3><div class="chart-box"><canvas id="m-cGMV"></canvas></div></div>
+    <div class="card"><h3>Продажі партнера, ₴</h3><div class="chart-box"><canvas id="m-cGMV"></canvas></div></div>
     <div class="card"><h3>Доставлені / Розміщені замовлення</h3><div class="chart-box"><canvas id="m-cOrders"></canvas></div></div>
   </div>
   <div class="grid-2" style="margin-top:14px">
-    <div class="card"><h3>Середній чек партнера, €</h3><div class="chart-box"><canvas id="m-cAOV"></canvas></div></div>
+    <div class="card"><h3>Середній чек партнера, ₴</h3><div class="chart-box"><canvas id="m-cAOV"></canvas></div></div>
     <div class="card"><h3>Активні / Нові користувачі</h3><div class="chart-box"><canvas id="m-cUsers"></canvas></div></div>
   </div>
   <div class="insight" style="margin-top:14px">
@@ -180,7 +180,7 @@ th.col-group-end,td.col-group-end{border-right:2px solid #d1d5db!important}
 <div class="section" id="m-invest">
   <h2>4. Інвестиції у зростання партнерства</h2>
   <div class="grid-2">
-    <div class="card"><h3>Знижки по кампаніях, €</h3><div class="chart-box"><canvas id="m-cInvest"></canvas></div></div>
+    <div class="card"><h3>Знижки по кампаніях, ₴</h3><div class="chart-box"><canvas id="m-cInvest"></canvas></div></div>
     <div class="card"><h3>Кампанійні замовлення</h3><div class="chart-box"><canvas id="m-cCampOrders"></canvas></div></div>
   </div>
   <div class="card" style="margin-top:14px">
@@ -209,11 +209,11 @@ th.col-group-end,td.col-group-end{border-right:2px solid #d1d5db!important}
 <div class="section">
   <h2>1. Зростання та обсяги продажів</h2>
   <div class="grid-2">
-    <div class="card"><h3>Продажі партнера, €</h3><div class="chart-box"><canvas id="w-cGMV"></canvas></div></div>
+    <div class="card"><h3>Продажі партнера, ₴</h3><div class="chart-box"><canvas id="w-cGMV"></canvas></div></div>
     <div class="card"><h3>Доставлені / Розміщені замовлення</h3><div class="chart-box"><canvas id="w-cOrders"></canvas></div></div>
   </div>
   <div class="grid-2" style="margin-top:14px">
-    <div class="card"><h3>Середній чек партнера, €</h3><div class="chart-box"><canvas id="w-cAOV"></canvas></div></div>
+    <div class="card"><h3>Середній чек партнера, ₴</h3><div class="chart-box"><canvas id="w-cAOV"></canvas></div></div>
     <div class="card"><h3>Активні / Нові користувачі</h3><div class="chart-box"><canvas id="w-cUsers"></canvas></div></div>
   </div>
 </div>
@@ -247,7 +247,7 @@ th.col-group-end,td.col-group-end{border-right:2px solid #d1d5db!important}
 <div class="section">
   <h2>4. Інвестиції у зростання партнерства</h2>
   <div class="grid-2">
-    <div class="card"><h3>Знижки по кампаніях, €</h3><div class="chart-box"><canvas id="w-cInvest"></canvas></div></div>
+    <div class="card"><h3>Знижки по кампаніях, ₴</h3><div class="chart-box"><canvas id="w-cInvest"></canvas></div></div>
     <div class="card"><h3>Кампанійні замовлення</h3><div class="chart-box"><canvas id="w-cCampOrders"></canvas></div></div>
   </div>
 </div>
@@ -279,8 +279,8 @@ th.col-group-end,td.col-group-end{border-right:2px solid #d1d5db!important}
             <th>Магазин</th>
             <th>Місто</th>
             <th class="col-group-start">Замовл.</th><th class="col-group-end">WoW</th>
-            <th class="col-group-start">Merch Price (€)</th><th class="col-group-end">WoW</th>
-            <th>AOV (€)</th>
+            <th class="col-group-start">Merch Price (₴)</th><th class="col-group-end">WoW</th>
+            <th>AOV (₴)</th>
             <th class="col-group-start">Availability %</th>
             <th class="col-group-end">Acceptance %</th>
             <th class="col-group-start">Рейтинг</th>
@@ -305,9 +305,6 @@ th.col-group-end,td.col-group-end{border-right:2px solid #d1d5db!important}
 
 <div class="section">
   <h2>Невдалі замовлення — перелік за тижнями</h2>
-  <div class="insight" style="margin-bottom:14px">
-    <div class="insight-text">Замовлення зі статусом, відмінним від <em>delivered</em>, за обраний повний тиждень. Групування по назві магазину в Bolt. Причини скасування — з <code>delivery_order_order_resolution</code> (технічні коди успішного завершення виключені).</div>
-  </div>
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
     <label style="font-size:13px;font-weight:600;color:var(--muted)">Тиждень:</label>
     <select id="failWeekSelect" class="week-sel"></select>
@@ -344,7 +341,7 @@ th.col-group-end,td.col-group-end{border-right:2px solid #d1d5db!important}
 /*__REPORT_DATA__*/
 
 const n = (v, d=1) => v == null ? '—' : Number(v).toFixed(d);
-const eur = (v) => v == null ? '—' : '€' + Number(v).toLocaleString('uk-UA', {minimumFractionDigits:0, maximumFractionDigits:0});
+const uah = (v) => v == null ? '—' : Number(v).toLocaleString('uk-UA', {minimumFractionDigits:0, maximumFractionDigits:0}) + ' ₴';
 const pct = (v) => v == null ? '—' : n(v,1) + '%';
 const fmt = (v) => v == null ? '—' : Number(v).toLocaleString('uk-UA', {maximumFractionDigits:0});
 
@@ -470,7 +467,7 @@ const periods = mData.map(d => d.period);
 if (periods.length) {
   const firstMonth = shortMonth(periods[0]);
   const lastMonth = shortMonth(periods[periods.length-1]);
-  document.getElementById('reportSubtitle').textContent = `Bolt Food UA · ${D.city || ''} · ${firstMonth} – ${lastMonth} · Валюта: EUR (€) · Бренд: ${D.partner_display_name || D.partner_name}`;
+  document.getElementById('reportSubtitle').textContent = `Bolt Food UA · ${D.city || ''} · ${firstMonth} – ${lastMonth} · Валюта: UAH (₴) · Бренд: ${D.partner_display_name || D.partner_name}`;
 } else {
   document.getElementById('reportSubtitle').textContent = `Bolt Food UA · ${D.city || ''} · ${D.partner_display_name || D.partner_name}`;
 }
@@ -483,9 +480,9 @@ function renderKPICards(containerId, data, labelFn) {
   if (!last) { container.innerHTML = '<div class="card kpi">Немає даних</div>'; return; }
 
   const kpis = [
-    {label:'Продажі партнера', sub:'€', value: eur(last.fin_merchant_price_eur), change: prev ? changeBadge(last.fin_merchant_price_eur, prev.fin_merchant_price_eur) : ''},
+    {label:'Продажі партнера', sub:'₴', value: uah(last.fin_merchant_price_uah), change: prev ? changeBadge(last.fin_merchant_price_uah, prev.fin_merchant_price_uah) : ''},
     {label:'Доставлені замовлення', sub:'', value: fmt(last.fin_orders), change: prev ? changeBadge(last.fin_orders, prev.fin_orders) : ''},
-    {label:'Середній чек', sub:'€', value: '€'+n(last.fin_merchant_price_per_order,2), change: prev ? changeBadge(last.fin_merchant_price_per_order, prev.fin_merchant_price_per_order) : ''},
+    {label:'Середній чек', sub:'₴', value: last.fin_merchant_price_per_order == null ? '—' : fmt(Math.round(last.fin_merchant_price_per_order)) + ' ₴', change: prev ? changeBadge(last.fin_merchant_price_per_order, prev.fin_merchant_price_per_order) : ''},
     {label:'Частка невдалих', sub:'замовлень', value: pct(last.fail_failed_rate_pct), change: prev ? ppBadge(last.fail_failed_rate_pct, prev.fail_failed_rate_pct, true) : '', color: last.fail_failed_rate_pct < 5 ? 'var(--green)' : last.fail_failed_rate_pct < 10 ? 'var(--yellow)' : 'var(--red)'},
     {label:'Активні користувачі', sub:'', value: fmt(last.fin_active_users), change: prev ? changeBadge(last.fin_active_users, prev.fin_active_users) : ''},
     {label:'Нові користувачі', sub:'перше замов.', value: fmt(last.fin_users_activated), change: prev ? changeBadge(last.fin_users_activated, prev.fin_users_activated) : ''},
@@ -503,14 +500,14 @@ function renderKPICards(containerId, data, labelFn) {
 function renderCharts(prefix, data, labelFn) {
   const labels = data.map(d => labelFn(d.period));
 
-  new Chart(document.getElementById(prefix+'-cGMV'), {type:'bar', data:{labels, datasets:[{label:'Продажі партнера (€)', data:data.map(d=>d.fin_merchant_price_eur), backgroundColor:'rgba(52,209,134,0.5)', borderRadius:4}]}, options:defOpts});
+  new Chart(document.getElementById(prefix+'-cGMV'), {type:'bar', data:{labels, datasets:[{label:'Продажі партнера (₴)', data:data.map(d=>d.fin_merchant_price_uah), backgroundColor:'rgba(52,209,134,0.5)', borderRadius:4}]}, options:defOpts});
 
   new Chart(document.getElementById(prefix+'-cOrders'), {type:'line', data:{labels, datasets:[
     {label:'Доставлені', data:data.map(d=>d.fin_orders), borderColor:'#34D186', backgroundColor:'rgba(52,209,134,0.08)', fill:true, tension:.3},
     {label:'Розміщені', data:data.map(d=>d.fail_total_placed), borderColor:'#7c3aed', borderDash:[5,3], tension:.3, fill:false}
   ]}, options:defOpts});
 
-  new Chart(document.getElementById(prefix+'-cAOV'), {type:'line', data:{labels, datasets:[{label:'Середній чек (€)', data:data.map(d=>d.fin_merchant_price_per_order), borderColor:'#0891b2', tension:.3, fill:false, pointRadius:5}]}, options:defOpts});
+  new Chart(document.getElementById(prefix+'-cAOV'), {type:'line', data:{labels, datasets:[{label:'Середній чек (₴)', data:data.map(d=>d.fin_merchant_price_per_order), borderColor:'#0891b2', tension:.3, fill:false, pointRadius:5}]}, options:defOpts});
 
   new Chart(document.getElementById(prefix+'-cUsers'), {type:'bar', data:{labels, datasets:[
     {label:'Нові користувачі', data:data.map(d=>d.fin_users_activated), backgroundColor:'rgba(52,209,134,0.55)', borderRadius:3, yAxisID:'y'},
@@ -551,8 +548,8 @@ function renderCharts(prefix, data, labelFn) {
   const campData = (prefix === 'm' ? D.monthly.campaigns : D.weekly.campaigns) || [];
   const campLabels = campData.map(d => labelFn(d.period));
   new Chart(document.getElementById(prefix+'-cInvest'), {type:'bar', data:{labels:campLabels, datasets:[
-    {label:'Bolt (€)', data:campData.map(d=>d.bolt_spend_eur), backgroundColor:'rgba(37,99,235,0.5)', borderRadius:4},
-    {label:'Партнер (€)', data:campData.map(d=>d.merchant_spend_eur), backgroundColor:'rgba(234,179,8,0.5)', borderRadius:4}
+    {label:'Bolt (₴)', data:campData.map(d=>d.bolt_spend_uah), backgroundColor:'rgba(37,99,235,0.5)', borderRadius:4},
+    {label:'Партнер (₴)', data:campData.map(d=>d.merchant_spend_uah), backgroundColor:'rgba(234,179,8,0.5)', borderRadius:4}
   ]}, options:{...defOpts, scales:{...defOpts.scales, x:{...defOpts.scales.x, stacked:true}, y:{...defOpts.scales.y, stacked:true}}}});
 
   new Chart(document.getElementById(prefix+'-cCampOrders'), {type:'bar', data:{labels:campLabels, datasets:[
@@ -571,10 +568,10 @@ if (mData.length) {
   for (const d of mData) html += `<th>${shortMonth(d.period)}</th>`;
   html += '</tr></thead><tbody>';
   const rows = [
-    {name:'Продажі партнера (€)', desc:'', key:'fin_merchant_price_eur', fmt:eur},
+    {name:'Продажі партнера (₴)', desc:'', key:'fin_merchant_price_uah', fmt:uah},
     {name:'Доставлені замовлення', desc:'', key:'fin_orders', fmt:fmt},
     {name:'Розміщені замовлення', desc:'', key:'fail_total_placed', fmt:fmt},
-    {name:'Середній чек (€)', desc:'', key:'fin_merchant_price_per_order', fmt:v=>'€'+n(v,2)},
+    {name:'Середній чек (₴)', desc:'', key:'fin_merchant_price_per_order', fmt:v=>uah(v,2)},
     {name:'Нові користувачі', desc:'перше замовлення', key:'fin_users_activated', fmt:fmt},
     {name:'Активні користувачі', desc:'', key:'fin_active_users', fmt:fmt},
   ];
@@ -586,7 +583,7 @@ if (mData.length) {
   html += '</tbody>';
   tbl.innerHTML = html;
   const aovNote = document.getElementById('m-aov-note');
-  if (aovNote) aovNote.textContent = 'Середній чек = продажі партнера (€) / доставлені замовлення. З лютого 2026 мережа в rollout — у перші місяці значення нижчі; з березня стабілізується біля €14–15.';
+  if (aovNote) aovNote.textContent = 'Середній чек = продажі партнера (₴) / доставлені замовлення. З лютого 2026 мережа в rollout — у перші місяці значення нижчі; з березня стабілізується біля 550–600 ₴.';
 }
 
 if (mData.length) {
@@ -669,14 +666,14 @@ if (mData.length) {
   for (const d of campData) html += `<th>${shortMonth(d.period)}</th>`;
   html += '</tr></thead><tbody>';
   const merchPriceByPeriod = {};
-  for (const d of mData) merchPriceByPeriod[d.period] = d.fin_merchant_price_eur;
+  for (const d of mData) merchPriceByPeriod[d.period] = d.fin_merchant_price_uah;
   const ordersPlacedByPeriod = {};
   for (const d of mData) ordersPlacedByPeriod[d.period] = d.fail_total_placed;
 
   const rows = [
-    {name:'Загальна знижка (€)', fn:d=>eur(d.campaigns_discount_eur)},
-    {name:'— Частка Bolt', fn:d=>eur(d.bolt_spend_eur)},
-    {name:'— Частка партнера', fn:d=>eur(d.merchant_spend_eur)},
+    {name:'Загальна знижка (₴)', fn:d=>uah(d.campaigns_discount_uah)},
+    {name:'— Частка Bolt', fn:d=>uah(d.bolt_spend_uah)},
+    {name:'— Частка партнера', fn:d=>uah(d.merchant_spend_uah)},
     {name:'Кампанійні замовлення', fn:d=>fmt(d.campaign_orders)},
     {name:'Кампанійні % від розміщених', fn:d=>{
       const placed = ordersPlacedByPeriod[d.period];
@@ -684,7 +681,7 @@ if (mData.length) {
     }},
     {name:'Знижка як % від продажів', fn:d=>{
       const mp = merchPriceByPeriod[d.period];
-      return mp ? pct(d.campaigns_discount_eur / mp * 100) : '—';
+      return mp ? pct(d.campaigns_discount_uah / mp * 100) : '—';
     }},
   ];
   for (const r of rows) {
@@ -728,8 +725,8 @@ if (wData.length) {
   const storesArr = Object.values(storesByKey);
 
   storesArr.sort((a,b) => {
-    const aTot = allPeriods.reduce((s,p) => s + (a.byPeriod[p]?.merchant_price_eur || 0), 0);
-    const bTot = allPeriods.reduce((s,p) => s + (b.byPeriod[p]?.merchant_price_eur || 0), 0);
+    const aTot = allPeriods.reduce((s,p) => s + (a.byPeriod[p]?.merchant_price_uah || 0), 0);
+    const bTot = allPeriods.reduce((s,p) => s + (b.byPeriod[p]?.merchant_price_uah || 0), 0);
     if (bTot !== aTot) return bTot - aTot;
     return (a.provider_name || '').localeCompare(b.provider_name || '', 'uk');
   });
@@ -817,19 +814,19 @@ if (wData.length) {
       metrics.push({store: s, curr, prev, inactive: !hasOrders});
       if (hasOrders) {
         totOrd += curr.orders;
-        totMP += curr.merchant_price_eur || 0;
+        totMP += curr.merchant_price_uah || 0;
         totRev += curr.reviews_count || 0;
         totCom += curr.comments_count || 0;
       }
     }
 
-    summary.textContent = `Мережа Bolt: ${networkTotal} магазинів · З замовленнями: ${withOrders} · Замовлень: ${fmt(totOrd)} · Продажі: ${eur(totMP)} · Відгуків: ${fmt(totRev)} (з коментарем: ${fmt(totCom)})`;
+    summary.textContent = `Мережа Bolt: ${networkTotal} магазинів · З замовленнями: ${withOrders} · Замовлень: ${fmt(totOrd)} · Продажі: ${uah(totMP)} · Відгуків: ${fmt(totRev)} (з коментарем: ${fmt(totCom)})`;
 
     let prevTotOrd = 0, prevTotMP = 0;
     if (prevPeriod) {
       for (const s of storesArr) {
         const prev = s.byPeriod[prevPeriod];
-        if (prev && prev.orders) { prevTotOrd += prev.orders; prevTotMP += prev.merchant_price_eur || 0; }
+        if (prev && prev.orders) { prevTotOrd += prev.orders; prevTotMP += prev.merchant_price_uah || 0; }
       }
     }
 
@@ -852,8 +849,8 @@ if (wData.length) {
     let html = '<tr style="background:rgba(52,209,134,0.06);font-weight:700">';
     html += '<td></td><td>ВСЯ МЕРЕЖА LOKO</td><td>—</td>';
     html += `<td class="col-group-start">${fmt(totOrd)}</td><td class="col-group-end">${wowBadge(totOrd, prevTotOrd)}</td>`;
-    html += `<td class="col-group-start">€${fmt(totMP)}</td><td class="col-group-end">${wowBadge(totMP, prevTotMP)}</td>`;
-    html += `<td>€${totOrd > 0 ? n(totMP/totOrd, 2) : '—'}</td>`;
+    html += `<td class="col-group-start">${uah(totMP)}</td><td class="col-group-end">${wowBadge(totMP, prevTotMP)}</td>`;
+    html += `<td>${totOrd > 0 ? uah(totMP / totOrd) : '—'}</td>`;
     html += `<td class="col-group-start">${pct(avgAvail)}</td><td class="col-group-end">—</td>`;
     html += `<td class="col-group-start"><span class="rating-pill" style="background:${ratingPillColor(avgRating)}">${avgRating != null ? n(avgRating, 2) : '—'}</span></td>`;
     html += `<td class="col-group-end">${fmt(totRev)}</td>`;
@@ -881,8 +878,8 @@ if (wData.length) {
       html += `<td style="white-space:nowrap;max-width:320px;overflow:hidden;text-overflow:ellipsis" title="${escapeHtml(storeName)}">${escapeHtml(storeName)}${statusBadge}</td>`;
       html += `<td>${escapeHtml(m.store.city_name || '')}</td>`;
       html += `<td class="col-group-start">${inactive ? '—' : fmt(c.orders)}</td><td class="col-group-end">${inactive ? '—' : wowBadge(c.orders, p?.orders)}</td>`;
-      html += `<td class="col-group-start">${inactive ? '—' : '€'+fmt(Math.round(c.merchant_price_eur || 0))}</td><td class="col-group-end">${inactive ? '—' : wowBadge(c.merchant_price_eur, p?.merchant_price_eur)}</td>`;
-      html += `<td>${inactive ? '—' : (c.orders ? '€'+n((c.merchant_price_eur || 0) / c.orders, 2) : '—')}</td>`;
+      html += `<td class="col-group-start">${inactive ? '—' : fmt(Math.round(c.merchant_price_uah || 0))}</td><td class="col-group-end">${inactive ? '—' : wowBadge(c.merchant_price_uah, p?.merchant_price_uah)}</td>`;
+      html += `<td>${inactive ? '—' : (c.orders ? uah((c.merchant_price_uah || 0) / c.orders) : '—')}</td>`;
       html += `<td class="col-group-start" style="color:${!inactive && c.availability_rate != null && c.availability_rate < 90 ? 'var(--red)' : !inactive && c.availability_rate >= 98 ? 'var(--green)' : ''}">${inactive ? '—' : pct(c.availability_rate)}</td>`;
       html += `<td class="col-group-end">${inactive ? '—' : pct(c.acceptance_rate)}</td>`;
       html += `<td class="col-group-start"><span class="rating-pill" style="background:${inactive ? '#9ca3af' : ratingColor}">${inactive || c.avg_rating == null ? '—' : n(c.avg_rating, 2)}</span></td>`;
@@ -917,6 +914,16 @@ if (wData.length) {
 })();
 
 // ── Failed orders list tab ──
+function normPeriod(p) {
+  return String(p == null ? '' : p).slice(0, 10);
+}
+
+function getFailedWeekPeriods() {
+  const fromList = [...new Set((D.failed_orders_list || []).map(r => normPeriod(r.period)))].filter(Boolean);
+  if (fromList.length) return fromList.sort();
+  return [...new Set((D.weekly?.financial || []).map(d => normPeriod(d.period)))].filter(Boolean).sort();
+}
+
 function formatCancellationDetail(raw, orderState) {
   if (!raw) return orderState ? `Статус: ${orderState} (причину в resolution не знайдено)` : '—';
   return raw.split('; ').map(part => {
@@ -925,22 +932,52 @@ function formatCancellationDetail(raw, orderState) {
   }).join('; ');
 }
 
+let _failTabUiReady = false;
+
+function exportFailedOrdersCsv() {
+  const sel = document.getElementById('failWeekSelect');
+  const week = sel?.value;
+  if (!week) return;
+  const rows = (D.failed_orders_list || []).filter(r => normPeriod(r.period) === normPeriod(week));
+  const header = ['provider_name', 'provider_id', 'order_reference_id', 'order_created_at', 'order_state', 'cancellation_detail'];
+  const lines = [header.join(',')];
+  for (const r of rows) {
+    lines.push(header.map(h => `"${String(r[h] ?? '').replace(/"/g, '""')}"`).join(','));
+  }
+  const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `loko-failed-orders-${week}.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
 function renderFailedOrdersTab() {
   const list = D.failed_orders_list || [];
   const sel = document.getElementById('failWeekSelect');
   const summary = document.getElementById('failWeekSummary');
   const tbody = document.getElementById('failOrdersBody');
+  const exportBtn = document.getElementById('failExportCsv');
   if (!sel || !tbody) return;
 
-  const periods = [...new Set(list.map(r => r.period))].sort();
+  const periods = getFailedWeekPeriods();
   const prev = sel.value;
+  if (!periods.length) {
+    sel.innerHTML = '<option value="">— немає тижнів —</option>';
+    summary.textContent = 'Немає даних про невдалі замовлення за останні 4 тижні';
+    tbody.innerHTML = '<tr><td colspan="5" class="me" style="text-align:center;padding:24px">Немає даних</td></tr>';
+    if (exportBtn) exportBtn.disabled = true;
+    return;
+  }
+
   sel.innerHTML = periods.map(p => `<option value="${p}">${shortWeek(p)}</option>`).join('');
   if (prev && periods.includes(prev)) sel.value = prev;
-  else if (periods.length) sel.value = periods[periods.length - 1];
+  else sel.value = periods[periods.length - 1];
+  if (exportBtn) exportBtn.disabled = false;
 
   function renderWeek() {
-    const week = sel.value;
-    const rows = list.filter(r => r.period === week);
+    const week = normPeriod(sel.value);
+    const rows = list.filter(r => normPeriod(r.period) === week);
     summary.textContent = rows.length
       ? `${rows.length} невдалих замовлень · ${new Set(rows.map(r => r.provider_name)).size} магазинів`
       : 'Немає невдалих замовлень за цей тиждень';
@@ -955,7 +992,7 @@ function renderFailedOrdersTab() {
 
     let html = '';
     if (!providers.length) {
-      html = '<tr><td colspan="5" class="me" style="text-align:center;padding:24px">Немає даних</td></tr>';
+      html = '<tr><td colspan="5" class="me" style="text-align:center;padding:24px">Немає невдалих замовлень за обраний тиждень</td></tr>';
     } else {
       for (const g of providers) {
         html += `<tr class="provider-group"><td colspan="5">${escapeHtml(g.name)} <span class="failed-meta">· Provider ID ${escapeHtml(String(g.id))} · ${g.orders.length} замовл.</span></td></tr>`;
@@ -974,37 +1011,15 @@ function renderFailedOrdersTab() {
     tbody.innerHTML = html;
   }
 
-  sel.onchange = renderWeek;
-  document.getElementById('failExportCsv').onclick = () => {
-    const week = sel.value;
-    const rows = list.filter(r => r.period === week);
-    const header = ['provider_name', 'provider_id', 'order_reference_id', 'order_created_at', 'order_state', 'cancellation_detail'];
-    const lines = [header.join(',')];
-    for (const r of rows) {
-      const vals = header.map(h => {
-        const v = String(r[h] ?? '').replace(/"/g, '""');
-        return `"${v}"`;
-      });
-      lines.push(vals.join(','));
-    }
-    const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `loko-failed-orders-${week}.csv`;
-    a.click();
-    URL.revokeObjectURL(a.href);
-  };
+  if (!_failTabUiReady) {
+    _failTabUiReady = true;
+    sel.addEventListener('change', renderWeek);
+    exportBtn?.addEventListener('click', exportFailedOrdersCsv);
+  }
   renderWeek();
 }
 
-if ((D.failed_orders_list || []).length) {
-  const failSel = document.getElementById('failWeekSelect');
-  if (failSel) {
-    const periods = [...new Set(D.failed_orders_list.map(r => r.period))].sort();
-    failSel.innerHTML = periods.map(p => `<option value="${p}">${shortWeek(p)}</option>`).join('');
-    if (periods.length) failSel.value = periods[periods.length - 1];
-  }
-}
+renderFailedOrdersTab();
 </script>
 </body>
 </html>

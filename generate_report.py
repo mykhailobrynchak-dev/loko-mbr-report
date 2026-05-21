@@ -179,13 +179,13 @@ FINANCIAL_MONTHLY = f"""
 SELECT
     DATE_FORMAT(f.order_created_date, 'yyyy-MM') AS period,
     COUNT(*) AS orders,
-    SUM(f.provider_price_before_discount_eur) AS merchant_price_eur,
-    SUM(f.provider_price_before_discount_eur) / NULLIF(COUNT(*), 0) AS merchant_price_per_order,
-    SUM(f.order_gmv_eur) AS gmv_eur,
-    SUM(f.order_gmv_eur) / NULLIF(COUNT(*), 0) AS aov_eur,
+    SUM(f.provider_price_before_discount) AS merchant_price_uah,
+    SUM(f.provider_price_before_discount) / NULLIF(COUNT(*), 0) AS merchant_price_per_order,
+    SUM(f.order_gmv) AS gmv_uah,
+    SUM(f.order_gmv) / NULLIF(COUNT(*), 0) AS aov_uah,
     COUNT(DISTINCT CASE WHEN f.is_first_delivery_order THEN f.user_id END) AS users_activated,
     COUNT(DISTINCT f.user_id) AS active_users,
-    SUM(f.total_refunded_amount_eur) / NULLIF(SUM(f.order_gmv_eur), 0) * 100 AS refund_rate_pct
+    SUM(f.total_refunded_amount) / NULLIF(SUM(f.order_gmv), 0) * 100 AS refund_rate_pct
 FROM ng_delivery_spark.fact_order_delivery f
     JOIN ng_delivery_spark.dim_provider_v2 p ON f.provider_id = p.provider_id
 WHERE p.country_code = 'ua'
@@ -200,13 +200,13 @@ FINANCIAL_WEEKLY = f"""
 SELECT
     DATE_FORMAT(DATE_TRUNC('week', f.order_created_date), 'yyyy-MM-dd') AS period,
     COUNT(*) AS orders,
-    SUM(f.provider_price_before_discount_eur) AS merchant_price_eur,
-    SUM(f.provider_price_before_discount_eur) / NULLIF(COUNT(*), 0) AS merchant_price_per_order,
-    SUM(f.order_gmv_eur) AS gmv_eur,
-    SUM(f.order_gmv_eur) / NULLIF(COUNT(*), 0) AS aov_eur,
+    SUM(f.provider_price_before_discount) AS merchant_price_uah,
+    SUM(f.provider_price_before_discount) / NULLIF(COUNT(*), 0) AS merchant_price_per_order,
+    SUM(f.order_gmv) AS gmv_uah,
+    SUM(f.order_gmv) / NULLIF(COUNT(*), 0) AS aov_uah,
     COUNT(DISTINCT CASE WHEN f.is_first_delivery_order THEN f.user_id END) AS users_activated,
     COUNT(DISTINCT f.user_id) AS active_users,
-    SUM(f.total_refunded_amount_eur) / NULLIF(SUM(f.order_gmv_eur), 0) * 100 AS refund_rate_pct
+    SUM(f.total_refunded_amount) / NULLIF(SUM(f.order_gmv), 0) * 100 AS refund_rate_pct
 FROM ng_delivery_spark.fact_order_delivery f
     JOIN ng_delivery_spark.dim_provider_v2 p ON f.provider_id = p.provider_id
 WHERE p.country_code = 'ua'
@@ -378,11 +378,11 @@ LIMIT 5000
 CAMPAIGNS_MONTHLY = f"""
 SELECT
     DATE_FORMAT(f.order_created_date, 'yyyy-MM') AS period,
-    SUM(f.total_order_item_discount_eur) AS campaigns_discount_eur,
-    SUM(f.total_order_item_discount_eur)
-        - SUM(f.provider_price_before_discount_eur - f.provider_price_after_discount_eur) AS bolt_spend_eur,
-    SUM(f.provider_price_before_discount_eur - f.provider_price_after_discount_eur) AS merchant_spend_eur,
-    COUNT(CASE WHEN f.total_order_item_discount_eur > 0 THEN 1 END) AS campaign_orders
+    SUM(f.total_order_item_discount) AS campaigns_discount_uah,
+    SUM(f.total_order_item_discount)
+        - SUM(f.provider_price_before_discount - f.provider_price_after_discount) AS bolt_spend_uah,
+    SUM(f.provider_price_before_discount - f.provider_price_after_discount) AS merchant_spend_uah,
+    COUNT(CASE WHEN f.total_order_item_discount > 0 THEN 1 END) AS campaign_orders
 FROM ng_delivery_spark.fact_order_delivery f
     JOIN ng_delivery_spark.dim_provider_v2 p ON f.provider_id = p.provider_id
 WHERE p.country_code = 'ua'
@@ -461,8 +461,8 @@ SELECT
     f.provider_name,
     f.city_name,
     COUNT(*) AS orders,
-    SUM(f.provider_price_before_discount_eur) AS merchant_price_eur,
-    SUM(f.provider_price_before_discount_eur) / NULLIF(COUNT(*), 0) AS aov_eur
+    SUM(f.provider_price_before_discount) AS merchant_price_uah,
+    SUM(f.provider_price_before_discount) / NULLIF(COUNT(*), 0) AS aov_uah
 FROM ng_delivery_spark.fact_order_delivery f
     JOIN ng_delivery_spark.dim_provider_v2 p ON f.provider_id = p.provider_id
 WHERE p.country_code = 'ua'
