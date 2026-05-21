@@ -24,6 +24,7 @@ if git diff --cached --quiet; then
 else
   git commit -m "Оновлення звіту LOKO: $(date +'%Y-%m-%d %H:%M')"
 fi
+git pull --rebase origin main
 if ! git push origin main; then
   echo "✗ git push failed — налаштуйте SSH або gh auth login"
   exit 1
