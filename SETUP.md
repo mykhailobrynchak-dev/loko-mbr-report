@@ -11,13 +11,16 @@ cd "Reports/LOKO/MBR"
 cp .env.example .env
 ```
 
-Відкрийте `.env` і підставте **новий** Databricks token (не той, що колись надсилали в чат):
+Відкрийте `.env` і підставте **справжній** Databricks PAT (не рядок `your_databricks_pat_here` з прикладу):
 
 ```
 DATABRICKS_HOST=bolt-common.cloud.databricks.com
-DATABRICKS_TOKEN=...
+DATABRICKS_TOKEN=dapixxxxxxxx...
 DATABRICKS_WAREHOUSE_ID=b39957853740b21d
+DATABRICKS_TLS_NO_VERIFY=1
 ```
+
+Токен: Databricks → **User Settings** → **Developer** → **Access tokens** → **Generate new token** (довгий, починається з `dapi`).
 
 Файл `.env` **не потрапляє в git** (див. `.gitignore`).
 

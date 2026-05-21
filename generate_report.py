@@ -54,6 +54,14 @@ def _require_env(name: str) -> str:
 
 DATABRICKS_HOST = _require_env("DATABRICKS_HOST")
 DATABRICKS_TOKEN = _require_env("DATABRICKS_TOKEN")
+if DATABRICKS_TOKEN.startswith("your") or len(DATABRICKS_TOKEN) < 32:
+    print(
+        "DATABRICKS_TOKEN у .env — заглушка з .env.example, не справжній токен.\n"
+        "Databricks → User Settings → Developer → Access tokens → Generate new token.\n"
+        "Вставте в .env рядок DATABRICKS_TOKEN=dapi... (без лапок).",
+        file=sys.stderr,
+    )
+    sys.exit(1)
 DATABRICKS_HTTP_PATH = os.environ.get("DATABRICKS_HTTP_PATH", "")
 DATABRICKS_WAREHOUSE_ID = os.environ.get("DATABRICKS_WAREHOUSE_ID", "")
 

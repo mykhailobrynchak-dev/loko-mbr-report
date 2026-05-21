@@ -24,7 +24,10 @@ if git diff --cached --quiet; then
 else
   git commit -m "Оновлення звіту LOKO: $(date +'%Y-%m-%d %H:%M')"
 fi
-git push origin main
+if ! git push origin main; then
+  echo "✗ git push failed — налаштуйте SSH або gh auth login"
+  exit 1
+fi
 
 echo "✓ Published: https://mykhailobrynchak-dev.github.io/loko-mbr-report/"
 echo "  Refresh the page in ~30s (Cmd+Shift+R)."
